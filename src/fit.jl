@@ -1,3 +1,11 @@
+## NOTES
+
+# fit(Normal, x::Vector{Float}) --> maximum likelihood estimation...
+
+# fit(hmm.B, obs::Vector{Float})
+
+
+
 function baum_welch!(hmm::HMM, o::Vector{Int}; max_iter=20, tol=1e-6, scaling=true)
 	# Convert input appropriately if user provides a single observation sequence
 	return baum_welch!(hmm,(Vector{Int})[o];max_iter=max_iter,tol=tol,scaling=scaling)
