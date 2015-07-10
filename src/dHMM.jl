@@ -17,7 +17,7 @@ end
 function dHMM(n::Int,m::Int)
 	# Randomize state-transition matrix
 	A = rand(n,n)
-	A ./= repmat(sum(A,1),n,1) # normalize columns
+	A ./= repmat(sum(A,1),n,1) # normalize rows
 	
 	# Randomize emission probability matrix
 	B = rand(n,m)
@@ -62,7 +62,7 @@ function generate(hmm::dHMM, n_obs::Int)
 
 	# Iterate drawing observations and updating state
 	for i = 2:n_obs
-		s[i] = sample(WeightVec(hmm.A[:,s[i-1]])) # Pr(s[i+1]==j|s[i]) = A[j,s[i]]
+		s[i] = sample(WeightVec(vec(hmm.A[s[i-1],:]))) # Pr(s[i+1]==j|s[i]) = A[j,s[i]]
 		o[i] = sample(WeightVec(vec(hmm.B[s[i],:])))   # Pr(o==k|s) = B[s,k]
 	end
 
