@@ -14,6 +14,8 @@ type HMM{C<:Distribution}
 	#    Allow B to depend on other observables, for observation o and param k, B(o|k)
 end
 
+# TO DO: add a constructor each B[i] is drawn from some distribution specified by hyperparams
+
 function HMM(n::Int,C::Distribution)
 	# Randomize state-transition matrix
 	A = rand(n,n)

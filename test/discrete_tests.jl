@@ -107,25 +107,28 @@ o = [ 1, 2, 1, 6, 6, 3, 3, 2, 1 ]
 true_vit = [ 1, 1, 1, 2, 2, 1, 1, 1, 1 ]
 @test(all(viterbi(hmm,o) .== true_vit))
 
-# # check Baum-Welch algorithm
-# o = [ 1, 2, 1, 6, 6, 3, 3, 2, 1 ]
-# expected_result_A = [ 0.75  0.25 ;
-#                       0.25  0.75 ]
-# expected_result_B = [ 0.6  0.4  0.0  0.0  0.0  0.0 ;
-#                       0.0  0.0  0.5  0.0  0.0  0.5 ]
-# expected_result_p = [1.0, 0.0]
+# check Baum-Welch algorithm
+o = [ 1, 2, 1, 6, 6, 3, 3, 2, 1 ]
+expected_result_A = [ 0.75  0.25 ;
+                      0.25  0.75 ]
+expected_result_B = [ 0.6  0.4  0.0  0.0  0.0  0.0 ;
+                      0.0  0.0  0.5  0.0  0.0  0.5 ]
+expected_result_p = [1.0, 0.0]
 
-# hmm1 = deepcopy(hmm) # check without scaling alpha/beta
-# baum_welch!(hmm1, o; max_iter=60, scaling=false)
-# @test(all(round(hmm1.A,4) .== expected_result_A))
-# @test(all(round(hmm1.B,4) .== expected_result_B))
-# @test(all(round(hmm1.p,4) .== expected_result_p))
+hmm1 = deepcopy(hmm) # check without scaling alpha/beta
+fit!(hmm1, o; max_iter=60, scaling=false)
 
-# hmm2 = deepcopy(hmm) # check with scaling alpha/beta
-# baum_welch!(hmm2, o; max_iter=60, scaling=true)
-# @test(all(round(hmm2.A,4) .== expected_result_A))
-# @test(all(round(hmm2.B,4) .== expected_result_B))
-# @test(all(round(hmm2.p,4) .== expected_result_p))
+@test(all(round(hmm1.A,4) .== expected_result_A))
+@test(all(round(hmm1.B[1].p,4) .== expected_result_B[1,:]'))
+@test(all(round(hmm1.B[2].p,4) .== expected_result_B[2,:]'))
+@test(all(round(hmm1.p,4) .== expected_result_p))
+
+hmm2 = deepcopy(hmm) # check with scaling alpha/beta
+fit!(hmm2, o; max_iter=60, scaling=true)
+@test(all(round(hmm2.A,4) .== expected_result_A))
+@test(all(round(hmm2.B[1].p,4) .== expected_result_B[1,:]'))
+@test(all(round(hmm2.B[2].p,4) .== expected_result_B[2,:]'))
+@test(all(round(hmm2.p,4) .== expected_result_p))
 
 # hmm3 = deepcopy(hmm) # check with multiple sequences
 # oo = (Vector{Int})[o;o] # two copies of the same sequence
