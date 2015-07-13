@@ -6,7 +6,7 @@ type HMM{C<:Distribution}
 	A::Matrix{Float64} # Estimated state-transition matrix A[i,j] = Pr[i->j]
 	B::Vector{C}       # Estimated emission probability distributions
 	p::Vector{Float64} # Estimiated initial state probabilities
-	
+
 	# Notes:
 	#   "A" is a NxN matrix, rows sum to one
 
@@ -17,7 +17,7 @@ end
 function HMM(n::Int,C::Distribution)
 	# Randomize state-transition matrix
 	A = rand(n,n)
-	A ./= repmat(sum(A,1),n,1) # normalize rows	
+	A ./= sum(A,2) # normalize rows	
 	
 	# Specify a distribution of type C for each state
 	B = (Distribution)[]
@@ -102,7 +102,7 @@ function generate(hmm::HMM, n_obs::Int)
 
 	# Iterate drawing observations and updating state
 	for t = 2:n_obs
-		s[t] = rand(Ac[s[t-1]])   # sample from state-transition matrix
+		s[t] = rand(Ac[s[t-1]])   # sample from appropriate row of state-transition matrix
 		o[t] = rand(hmm.B[s[t]])  # sample from emission probability distribution
 	end
 
