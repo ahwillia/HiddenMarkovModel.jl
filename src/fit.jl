@@ -46,10 +46,9 @@ function re_estimate!(hmm,o,x,g)
     end
 
 	# Update emission probability distributions
-	dist_type = typeof(hmm.B[1])
 	for i = 1:hmm.n
 		# weight each observation by probability of being in state i
-		hmm.B[i] = fit_mle(dist_type, o, g[:,i])
+		hmm.B[i] = fit_mle(typeof(hmm.B[i]), o, g[:,i])
 	end
 
 	# Re-estimate hmm.p (initial state probabilities)
