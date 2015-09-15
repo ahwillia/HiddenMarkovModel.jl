@@ -1,3 +1,4 @@
+### Forward-Backward Algorithm
 function forward_backward(hmm::HMM,o::Vector; scaling=true)
 	if scaling
 		alpha, log_p_obs, coeff = forward(hmm,o; scaling=true)
@@ -83,6 +84,8 @@ function backward(hmm::HMM, o::Vector; scale_coeff=None)
 	return beta
 end
 
+### Viterbi
+
 function viterbi(hmm::HMM, o::Vector)
 	n_obs = length(o)
 
@@ -113,4 +116,10 @@ function viterbi(hmm::HMM, o::Vector)
 		q[t] = psi[t+1,q[t+1]]
 	end
 	return q
+end
+
+### Smoothed state sequence based on forward-backward algorithm
+function smoothed_forward_backward(hmm::HMM, o::Vector; scaling=true)
+	log_p_obs,alpha,beta,x,g = calc_stats(hmm,o;scaling=scaling)
+	return g,log_p_obs
 end
