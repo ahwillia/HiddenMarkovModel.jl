@@ -1,3 +1,15 @@
+function forward_backward(hmm::HMM,o::Vector; scaling=true)
+	if scaling
+		alpha, log_p_obs, coeff = forward(hmm,o; scaling=true)
+		beta = backward(hmm,o; scale_coeff=coeff)
+	else
+		alpha, p_obs = forward(hmm,o; scaling=false)
+		log_p_obs = log(p_obs)
+	    beta = backward(hmm,o)
+	end
+	return alpha, beta, log_p_obs
+end
+
 function forward(hmm::HMM, o::Vector; scaling=true)
 	n_obs = length(o)
 

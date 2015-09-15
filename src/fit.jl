@@ -1,9 +1,7 @@
-## NOTES
 
-# fit(D::Distribution, x::Vector{Float}, w::Vector{Float}) --> weighted maximum likelihood estimation...
+# TODO: fit(D::Distribution, x::Vector{Float}, w::Vector{Float}) --> weighted maximum likelihood estimation...
 
-# fit(hmm.B, obs::Vector{Float})
-
+# Fitting function, add more methods here
 function fit!(hmm, o; method=:baum_welch, max_iter=100, tol=1e-5, scaling=true)
 	if method == :baum_welch
 		return baum_welch!(hmm, o, max_iter, tol, scaling)
@@ -63,14 +61,7 @@ function calc_stats(hmm,o,scaling)
 	n_obs = length(o)
 
 	# Calculate forward/backward probabilities
-	if scaling
-		alpha, log_p_obs, coeff = forward(hmm,o; scaling=true)
-		beta = backward(hmm,o; scale_coeff=coeff)
-	else
-		alpha, p_obs = forward(hmm,o; scaling=false)
-		log_p_obs = log(p_obs)
-	    beta = backward(hmm,o)
-	end
+	alpha,beta,log_p_obs = forward_backward(hmm,o;scaling=scaling)
 
 	# x[t,i,j] = probability of being in state 'i' at 't' and then in state 'j' at 't+1'
 	x = zeros(n_obs-1, hmm.n, hmm.n)
