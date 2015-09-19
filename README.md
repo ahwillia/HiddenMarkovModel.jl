@@ -5,6 +5,8 @@ This is just a side-project for me at the moment. [Get in touch with me](http://
 
 ### Example HMM with Gaussian Emissions
 
+The code below creates two Hidden Markov Models: `hmm` and `hmm_true`. A dataset is generated from `hmm_true` and parameters for `hmm` are fit based on this dataset, and are shown to resemble the ground truth (i.e. the parameters of `hmm_true`).
+
 ```julia
 using HiddenMarkovModel
 using Distributions
@@ -12,10 +14,12 @@ using Distributions
 # Creates a Gaussian HMM with 2 hidden states (default params)
 hmm = HMM(2,Normal()) 
 
-# Creates another 2-state Gaussian HMM with specified means/scales
-μ1,μ2 = -20,15
-σ1,σ2 = 3,5
-A = [ 0.9 0.1 ; 0.8 0.2 ] # Transition matrix
+## Create some synthetic tranining data
+μ1,μ2 = -20,15 # mean emission of state 1 and state 2
+σ1,σ2 = 3,5    # std of emissions in state 1 and state 2
+
+# A is the transition matrix, B is an Array of emission Distributions
+A = [ 0.9 0.1 ; 0.8 0.2 ]
 B = (Distribution)[ Normal(μ1,σ1) , Normal(μ2,σ2) ]
 
 # Create the HMM and draw 10 thousand samples from it
