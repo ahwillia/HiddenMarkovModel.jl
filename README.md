@@ -1,6 +1,14 @@
 # HiddenMarkovModel.jl
 A module for fitting Hidden Markov Models in Julia. Also check out [ToyHMM.jl](https://github.com/ahwillia/ToyHMM.jl), for a simple implementation of a discrete HMM in Julia.
 
+### Installation
+
+The package is not registered (yet), so to download the code use:
+
+```julia
+Pkg.clone("https://github.com/ahwillia/HiddenMarkovModel.jl")
+```
+
 ### Example HMM with Gaussian Emissions
 
 The code below creates two Hidden Markov Models: `hmm` and `hmm_true`. A dataset is generated from `hmm_true` and parameters for `hmm` are fit based on this dataset, and are shown to resemble the ground truth (i.e. the parameters of `hmm_true`).
@@ -12,7 +20,7 @@ using Distributions
 # Creates a Gaussian HMM with 2 hidden states (default params)
 hmm = HMM(2,Normal()) 
 
-## Create some synthetic tranining data
+## Create some synthetic training data
 μ1,μ2 = -20,15 # mean emission of state 1 and state 2
 σ1,σ2 = 3,5    # std of emissions in state 1 and state 2
 
