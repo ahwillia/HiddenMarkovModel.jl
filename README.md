@@ -1,4 +1,4 @@
-**Note:** There is now a registered package [HiddenMarkovModels.jl](https://github.com/BenConnault/HiddenMarkovModels.jl). This packages is no longer maintained (but it still works).
+**Note:** There is now a registered package [HiddenMarkovModels.jl](https://github.com/BenConnault/HiddenMarkovModels.jl). This package is no longer maintained (but it still works).
 
 ## HiddenMarkovModel.jl
 This is an old module for fitting Hidden Markov Models in Julia. Also check out [ToyHMM.jl](https://github.com/ahwillia/ToyHMM.jl), for a simple implementation of a discrete HMM in Julia.
